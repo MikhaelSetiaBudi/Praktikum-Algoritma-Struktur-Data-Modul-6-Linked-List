@@ -611,8 +611,6 @@ menambahkan node di belakang linked list dengan menggunakan fungsi insert belaka
 menghapus node di depan, belakang dan tengah dengan menggunakan fungsi hapus belakang, depan, dan tengah.
 menambahkan node di posisi tertentu dan menampilkannya. mengubah data depan, belakang dan tengah dengan menggunakan fungsi ubah depan, belakang, dan tengah dan menampilkannya.
 
-
-
 #### Output
 ```C++
 3
@@ -784,137 +782,269 @@ int main() {
 #include <iostream>
 using namespace std;
 ```
-kode diatas digunakan untuk mendefinisikan header file iostream yang berisi definisi objek input dan output standar seperti cin, dan cout.
-using namespace std digunakan untuk menggunakan namespace std.
+kode diatas digunakan untuk mendefinisikan header file iostream yang berisi definisi objek input dan output standar seperti cin, dan cout. using namespace std digunakan untuk menggunakan namespace std.
 
 **Code 2**
 ```C++
-struct hewan {
-    string nama_hewan;
-    string jenis_kelamin;
-    string kembangbiak;
-    string pernafasan;
-    string tempat_hidup;
-    bool karnivora;
-}; 
+class Node {
+public:
+    string data;
+    Node* prev;
+    Node* next;
+};
 ```
-kode diatas digunakan untuk mendefinisikan struct hewan yang memiliki beberapa atribut seperti nama_hewan, jenis_kelamin, kembangbiak, pernafasan, tempat_hidup, dan karnivora. struct ini merepresentasikan informasi umum tentang hewan.
+kode diatas mendeklarasikan kelas node yang mendefinisikan struktur node dalam linked list berantai ganda. untuk variabel data digunakan untuk menyimpan nilai atau data dari node. prev merupakan pointer yang menunjuk ke node sebelumnya dalam list. variabel next merupakan pointer yang menunjuk ke node berikutnya dalam list.
 
 **Code 3**
 ```C++
-struct hewan_darat{
-    hewan info_hewan;
-    int jumlah_kaki;
-    bool apakah_menyusui;
-    string suara;
-};
-hewan_darat hewan1;
+class DoublyLinkedList {
+public:
+    Node* head;
+    Node* tail;
+
+    DoublyLinkedList() {
+        head = nullptr;
+        tail = nullptr;
+    }
 ```
-struct hewan darat didefinisikan yang menempatkan struct hewan sebagai salah satu anggotanya. dimana dalam struct hewan darat terdapat beberapa atribut yaitu jumlah_kaki, apakah_menyusui,dan suara. lalu mendeklarasikan hewan1 dengan tipe hewan_darat.
+kelas DoublyLinkedList mendefinisikan linked list berantai ganda. head merupakan pointer node pertama dalam linked list dan tail merupakan pointer node terakhir dalam linked list.
 
 **Code 4**
 ```C++
-struct hewan_laut{
-    hewan info_hewan;
-    string bentuk_sirip;
-    string pertahanan_diri;
-};
-hewan_laut hewan2;
+void push(string data) {
+        Node* newNode = new Node;
+        newNode->data = data;
+        newNode->prev = nullptr;
+        newNode->next = head;
+        if (head != nullptr) {
+            head->prev = newNode;
+        } else {
+            tail = newNode;
+        }
+        head = newNode;
+    }
+
 ```
-struct hewan laut didefinisikan yang menempatkan struct hewan sebagai salah satu anggotanya. dimana dalam struct hewan laut terdapat beberapa atribut yaitu bentuk_sirip dan pertahanan_diri. lalu mendeklarasikan hewan2 dengan tipe hewan_laut.
+kode diatas merupakan fungsi push. kode diatas juga menambahkan node baru di depan linked list. membuat node baru, mengatur data, dan memperbarui pointer prev dan next. jika list tidak kosong maka memperbarui prev dari node pertama, tetapi jika list kosong maka memperbarui tail dan mengatur node baru sebagai head.
 
 **Code 5**
 ```C++
-int main() {
-    hewan1.info_hewan.nama_hewan = "Anjing";
-    hewan1.info_hewan.jenis_kelamin = "Laki-laki";
-    hewan1.info_hewan.kembangbiak = "Melahirkan";
-    hewan1.info_hewan.pernafasan = "Paru paru";
-    hewan1.info_hewan.tempat_hidup = "Darat";
-    hewan1.info_hewan.karnivora = true;
-    hewan1.jumlah_kaki = 4;
-    hewan1.apakah_menyusui = true;   
-    hewan1.suara = "guk, guk, guk";
-    
-    hewan2.info_hewan.nama_hewan = "Hiu";
-    hewan2.info_hewan.jenis_kelamin = "Perempuan";
-    hewan2.info_hewan.kembangbiak = "Bertelur dan Beranak";
-    hewan2.info_hewan.pernafasan = "Insang";
-    hewan2.info_hewan.tempat_hidup = "Perairan (Laut)";
-    hewan2.info_hewan.karnivora = true;
-    hewan2.bentuk_sirip = "dosal, sabit, dan gumpalan";
-    hewan2.pertahanan_diri = "Memakan Mangsa";   
+    void pop() {
+        if (head == nullptr) {
+            return;
+        }
+        Node* temp = head;
+        head = head->next;
+        if (head != nullptr) {
+            head->prev = nullptr;
+        } else {
+            tail = nullptr;
+        }
+        delete temp;
+    }
 ```
-int main() merupakan fungsi utama program. hewan1 dan hewan2 diisi dengan data sesuai atribut pada setia struct hewan dan hewan darat pada hewan1, lalu atribut hewan dan hewan laut pada hewan2 dengan menggunakan operator titik untuk mengakses dan mengatur nilai masing-masing atribut.
+kode diatas digunakan untuk menghapus node pertama dari list. jika list kosong maka tidak melakukan apa apa, dan set node kedua sebagai head yang baru. tetapi jika daftar masih ada node maka putuskan node kedua dengan node pertama yang sebelumnya. lalu jika hanya ada satu node maka set tail ke nullptr, dan menghapus node pertama yang sebelumnya. 
 
 **Code 6**
 ```C++
-//menampilkan data 
-	cout << "\t Hewan Darat" << endl;
-	cout << "Nama Hewan :" <<hewan1.info_hewan.nama_hewan << endl;
-	cout << "Jenis Kelamin : "<<hewan1.info_hewan.jenis_kelamin << endl;
-	cout << "Kembangbiak : "<< hewan1.info_hewan.kembangbiak << endl;
-	cout << "Pernapasan : "<< hewan1.info_hewan.pernafasan << endl;
-	cout << "Tempat Hidup : "<< hewan1.info_hewan.tempat_hidup << endl;
-	cout << "karnivora : "<< hewan1.info_hewan.karnivora << endl;
-	cout << "jumlah kaki : "<< hewan1.jumlah_kaki << endl;
-	cout << "apakah menyusui?  : "<< hewan1.apakah_menyusui << endl;
-	cout << "suara : "<< hewan1.suara << "\n" << endl ;
-
-	//menampilkan data 
-	cout << "\t Hewan Laut" << endl;
-	cout << "Nama Hewan :" <<hewan2.info_hewan.nama_hewan << endl;
-	cout << "Jenis Kelamin : "<<hewan2.info_hewan.jenis_kelamin << endl;
-	cout << "Kembangbiak : "<< hewan2.info_hewan.kembangbiak << endl;
-	cout << "Pernapasan : "<< hewan2.info_hewan.pernafasan << endl;
-	cout << "Tempat Hidup : "<< hewan2.info_hewan.tempat_hidup << endl;
-	cout << "apakah karnivora? "<< hewan2.info_hewan.karnivora << endl;
-	cout << "bentuk sirip : "<< hewan2.bentuk_sirip << endl;
-	cout << "pertahanan diri : "<< hewan2.pertahanan_diri << endl;
+bool update(string oldData, string newData) {
+        Node* current = head;
+        while (current != nullptr) {
+            if (current->data == oldData) {
+                current->data = newData;
+                return true;
+            }
+            current = current->next;
+        }
+        return false;
+    }
 ```
-kode diatas digunakan untuk menampilkan informasi mengenai hewan1 dan hewan2 dengan menggunakan cout. atribut hewan diakses dengan menggunakan operator titik setelah nama objek.
+kode diatas menggunakan fungsi update untuk mengubdate data yang telah ada dimana mengubah data dalam node yang cocok dengan oldData menjadi newData. kode diatas juga melakukan pencarian node dengan data oldData, jika ditemukan maka memperbarui data dan mengembalikan true tetapi jika tidak ditemukan maka akan mengembalikan false.
 
 **Code 7**
 ```C++
-	return 0;
-  }
+    void deleteAll() {
+        Node* current = head;
+        while (current != nullptr) {
+            Node* temp = current;
+            current = current->next;
+            delete temp;
+        }
+        head = nullptr;
+        tail = nullptr;
+    }
 ```
-Mengembalikan nilai 0 yang menandakan bahwa program telah selesai dijalankan.
+kode diatas menggunakan fungsi deletAll untuk menghapus semua node dari daftar. kode diatas juga melakukan iterasi melalui list dan menghapus setiap nodenya. setelah semua dihapus makan head dan tail diatur ke nullptr.
+
+**Code 8**
+```C++
+    void display() {
+        Node* current = head;
+        while (current != nullptr) {
+            cout << current->data << " ";
+            current = current->next;
+        }
+        cout << endl;
+    }
+};
+```
+Fungsi display digunakan untuk menampilkan data dari semua node dalam daftar. kode diatas juga melakukan iterasi melalui list dan mencetak data setiap nodenya.
+
+**Code 9**
+```C++
+int main() {
+    DoublyLinkedList list;
+    while (true) {
+        cout << "1. Add data" << endl;
+        cout << "2. Delete data" << endl;
+        cout << "3. Update data" << endl;
+        cout << "4. Clear data" << endl;
+        cout << "5. Display data" << endl;
+        cout << "6. Exit" << endl;
+
+        int choice;
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1: {
+                string data;
+                cout << "Enter data to add: ";
+                cin >> data;
+                list.push(data);
+                break;
+            }
+            case 2: {
+                list.pop();
+                break;
+            }
+            case 3: {
+                string oldData, newData;
+                cout << "Enter old data: ";
+                cin >> oldData;
+                cout << "Enter new data: ";
+                cin >> newData;
+                bool updated = list.update(oldData, newData);
+                if (!updated) {
+                    cout << "Data not found" << endl;
+                }
+                break;
+            }
+            case 4: {
+                list.deleteAll();
+                break;
+            }
+            case 5: {
+                list.display();
+                break;
+            }
+            case 6: {
+                return 0;
+            }
+            default: {
+                cout << "Invalid choice" << endl;
+                break;
+            }
+        }
+    }
+    return 0;
+}
+```
+int main() merupakan fungsi utama berinteraksi dengan daftar berantai ganda melalui antarmuka pengguna berbasis teks. dimana dalam fungsi utama terdapat menu dengan 6 pilihan yaitu menambahkan data dengan fungsi push, menghapus data dengan fungsi pop, memperbarui data dengan fungsi update, menghapus semua data dengan fungsi deleteAll, menampilkan data dengan fungsi display, dan yang terakhir yaitu untuk keluar dari program. program mengambil pilihan pengguna dan memanggil metode yang sesuai dari objek DoublyLinkedList.
 
 #### Output
 ```C++
-         Hewan Darat
-Nama Hewan :Anjing
-Jenis Kelamin : Laki-laki
-Kembangbiak : Melahirkan
-Pernapasan : Paru paru
-Tempat Hidup : Darat
-karnivora : 1
-jumlah kaki : 4
-apakah menyusui?  : 1
-suara : guk, guk, guk
+1. Add data
+2. Delete data
+3. Update data
+4. Clear data
+5. Display data
+6. Exit
+Enter your choice: 1
+Enter data to add: 11
+1. Add data
+2. Delete data
+3. Update data
+4. Clear data
+5. Display data
+6. Exit
+Enter your choice: 1
+Enter data to add: 20
+1. Add data
+2. Delete data
+3. Update data
+4. Clear data
+5. Display data
+6. Exit
+Enter your choice: 1
+Enter data to add: 21
+1. Add data
+2. Delete data
+3. Update data
+4. Clear data
+5. Display data
+6. Exit
+Enter your choice: 1
+Enter data to add: 30
+1. Add data
+2. Delete data
+3. Update data
+4. Clear data
+5. Display data
+6. Exit
+Enter your choice: 5
+30 21 20 11
+1. Add data
+2. Delete data
+3. Update data
+4. Clear data
+5. Display data
+6. Exit
+Enter your choice: 4
+1. Add data
+2. Delete data
+3. Update data
+4. Clear data
+5. Display data
+6. Exit
+Enter your choice: 5
 
-         Hewan Laut
-Nama Hewan :Hiu
-Jenis Kelamin : Perempuan
-Kembangbiak : Bertelur dan Beranak
-Pernapasan : Insang
-Tempat Hidup : Perairan (Laut)
-apakah karnivora? 1
-bentuk sirip : dosal, sabit, dan gumpalan
-pertahanan diri : Memakan Mangsa
+1. Add data
+2. Delete data
+3. Update data
+4. Clear data
+5. Display data
+6. Exit
+Enter your choice: 6
 ```
-Menampilkan informasi hewan darat yaitu nama hewan, jenis kelamin, kembangbiak, pernapasan, tempat hidup, karivora, jumlah kaki, apakah menyusui?, dan suara. pada bagian karnivora dan apakah menyusui 1 yang artinya true. menampilkan informasi hewan laut yaitu nama hewan, jenis kelamin, kembangbiak, pernapasan, tempat hidup, apakah karnivora?, bentuk sirip, dan pertahanan diri. pada bagian apakah karnivora? 1 yang artinya true.
+Output diatas menampilkan menu dengan 6 pilihan. memilih nomor 1 untuk menginputkan data baru, inputkan data baru 11, 20, 21, dan 30. lalu pilih nomor 5 untuk menampilkan seluruh linked list. pilih nomor 4 untuk menghapus seluruh data dan pilih nomor 6 untuk keluar dari program.
 
 #### Full Code Screenshoot
-![alt text](https://github.com/MikhaelSetiaBudi/Praktikum-Algoritma-Struktur-Data-Modul-5-Struct/blob/master/Modul%205%20Alstrukdat/code%20Guided%202%20Struct.png?raw=true)
+![alt text](https://github.com/MikhaelSetiaBudi/Praktikum-Algoritma-Struktur-Data-Modul-6-Linked-List/blob/master/Modul%206%20Alstrukdat/Code%20Guided%202%20Linked%20List.png?raw=true)
 
 #### Output Screenshot
-![alt text](https://github.com/MikhaelSetiaBudi/Praktikum-Algoritma-Struktur-Data-Modul-5-Struct/blob/master/Output%20Modul%205%20Alstrukdat/Output%20Guided%202%20Struct.png?raw=true)
+![alt text](https://github.com/MikhaelSetiaBudi/Praktikum-Algoritma-Struktur-Data-Modul-6-Linked-List/blob/master/Output%20Modul%206%20Alstrukdat/Output%20Guided%202%20Linked%20List.png?raw=true)
 
 ## Unguided 
 
-### 1. Modifikasi tugas guided pertama, sehingga setiap item yang terdapat pada struct buku berupa array yang berukuran 5, isi dengan data kemudian tampilkan. 
+### 1. Soal mengenai Single Linked List
+Buatlah program menu Single Linked List Non-Circular untuk menyimpan Nama dan usia mahasiswa, dengan menggunakan inputan dari user. Lakukan operasi berikut:
+a.	Masukkan data sesuai urutan berikut. (Gunakan insert depan, belakang atau tengah). Data pertama yang dimasukkan adalah nama dan usia anda.
+
+[Nama_anda]	[Usia_anda]
+John		     19
+Jane		     20
+Michael		     18
+Yusuke		     19
+Akechi		     20
+Hoshino		     18
+Karin		     18
+b.	Hapus data Akechi
+c.	Tambahkan data berikut diantara John dan Jane : Futaba	18
+d.	Tambahkan data berikut diawal : Igor	20
+e.	Ubah data Michael menjadi : Reyn	18
+f.	Tampilkan seluruh data
+
 
 ```C++
 #include <iostream>
